@@ -1,23 +1,43 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, HttpException, Req, Res, StreamableFile } from '@nestjs/common';
 import { SongInfo } from './entity/song.entity';
-import { SongService } from './song.service'
+import { SongService } from './song.service';
+import { request, Request, response } from 'express';
+
+
 @Controller('song')
 export class SongController {
     constructor(private readonly songService: SongService) { }
     @Get('getsongbyrandom')
-    getsongbyrandom(): SongInfo {
-        return this.songService.getsongbyrandom();
+    async getsongbyrandom(): Promise<SongInfo> {
+        let result: SongInfo[] = await this.songService.getsongbyrandom();
+        return result[Math.floor(Math.random() * result.length)];
     }
     @Get('getsongbyid')
-    getsongbyid(id: SongInfo['id']): SongInfo {
-        return this.songService.getsongbyid(id);
+    async getsongbyid(@Req() request: Request): Promise<SongInfo> {
+        let id: SongInfo['id'] = request.query.id as string;
+        return (await this.songService.getsongbyid(id))[0];
     }
     @Get('getsongfilebyid')
-    getsongfilebyid(id: SongInfo['id']): any {
-        return this.songService.getsongfilebyid(id);
+    async getsongfilebyid(@Req() request: Request, @Res({ passthrough: true }) response): Promise<StreamableFile | HttpException> {
+        let id: SongInfo['id'] = request.query.id as string;
+        let userkey: string = request.query.userkey as string;
+
+        if (userkey !== "test") {//没有请求文件的权限
+            return new HttpException('Users who do not have this permission temporarily', 407)
+        }
+
+        response.set({
+            'Content-Disposition': `attachment; filename="${new Date().getTime()}".mp3`,
+        });
+        return (await this.songService.getsongfilebyid(id));
     }
+
     @Get('getsongbysearch')
-    getsongbysearch(search: string, item: number = 10, page: number = 0): SongInfo[] {//提供分页功能
-        return this.songService.getsongbysearch(search).slice(page * item, (page + 1) * item);
+    async getsongbysearch(@Req() request: Request): Promise<SongInfo[]> {//提供分页功能
+        let search: string = request.query.search as string;
+        let item: number = request.query.item as unknown as number;
+        let page: number = request.query.page as unknown as number;
+        let result: SongInfo[] = (await this.songService.getsongbysearch(search,item,page));
+        return result;
     }
 }

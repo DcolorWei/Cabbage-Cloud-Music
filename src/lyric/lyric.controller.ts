@@ -5,8 +5,8 @@ import { Request } from 'express';
 @Controller('lyric')
 export class LyricController {
     constructor(private readonly lyricService: LyricService) { }
-    @Get('getlyricbysongname')
-    async getlyricbysongname(@Req() req: Request): Promise<string> {
-        return this.lyricService.getlyricbysongname(req.query.songname as string)
+    @Get('getlyricbysongid')
+    async getlyricbysongid(@Req() req: Request): Promise<string> {
+        return this.lyricService.getlyricbysongid(req.query.id as unknown as number)
     }
 }

@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SongModule } from './song/song.module';
 import { SongInfo } from './song/entity/song.entity';
+import { LyricModule } from './lyric/lyric.module';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { SongInfo } from './song/entity/song.entity';
       database: 'music',
       entities: [SongInfo],
       synchronize: true,
-    })],
+    }), LyricModule],
   controllers: [AppController],
   providers: [AppService],
 })

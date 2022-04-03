@@ -18,16 +18,14 @@ export class SongController {
         return (await this.songService.getsongbyid(id))[0];
     }
     @Get('getsongfilebyid')
-    async getsongfilebyid(@Req() request: Request, @Res({ passthrough: true }) response): Promise<StreamableFile | HttpException> {
+    async getsongfilebyid(@Req() request: Request, @Res({ passthrough: true }) response): Promise<string | HttpException> {
         let id: SongInfo['id'] = request.query.id as unknown as number;
         let userkey: string = request.query.userkey as string;
-
         if (userkey !== "test") {//没有请求文件的权限
             return new HttpException('Users who do not have this permission temporarily', 407)
         }
-        
         response.set({
-            'Content-Disposition': `attachment; filename="${new Date().getTime()}".mp3`,
+            'Access-Control-Allow-Origin':'*'
         });
         return (await this.songService.getsongfilebyid(id));
     }
@@ -37,7 +35,7 @@ export class SongController {
         let search: string = request.query.search as string;
         let item: number = request.query.item as unknown as number;
         let page: number = request.query.page as unknown as number;
-        let result: SongInfo[] = (await this.songService.getsongbysearch(search,item,page));
+        let result: SongInfo[] = (await this.songService.getsongbysearch(search, item, page));
         return result;
     }
 }

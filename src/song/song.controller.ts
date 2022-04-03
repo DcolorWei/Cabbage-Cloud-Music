@@ -1,7 +1,7 @@
 import { Controller, Get, HttpException, Req, Res, StreamableFile } from '@nestjs/common';
+import { Request } from 'express';
 import { SongInfo } from './entity/song.entity';
 import { SongService } from './song.service';
-import { request, Request, response } from 'express';
 
 
 @Controller('song')
@@ -14,18 +14,18 @@ export class SongController {
     }
     @Get('getsongbyid')
     async getsongbyid(@Req() request: Request): Promise<SongInfo> {
-        let id: SongInfo['id'] = request.query.id as string;
+        let id: SongInfo['id'] = request.query.id as unknown as number;
         return (await this.songService.getsongbyid(id))[0];
     }
     @Get('getsongfilebyid')
     async getsongfilebyid(@Req() request: Request, @Res({ passthrough: true }) response): Promise<StreamableFile | HttpException> {
-        let id: SongInfo['id'] = request.query.id as string;
+        let id: SongInfo['id'] = request.query.id as unknown as number;
         let userkey: string = request.query.userkey as string;
 
         if (userkey !== "test") {//没有请求文件的权限
             return new HttpException('Users who do not have this permission temporarily', 407)
         }
-
+        
         response.set({
             'Content-Disposition': `attachment; filename="${new Date().getTime()}".mp3`,
         });

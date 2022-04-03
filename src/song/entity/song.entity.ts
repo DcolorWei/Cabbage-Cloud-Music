@@ -3,9 +3,9 @@ import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
 @Entity('songinfo')
 export class SongInfo {
     @PrimaryGeneratedColumn()
-    num:number;
+    id:number;
     @Column('varchar',{nullable:true})
-    id: string;
+    digest: string;
     @Column('varchar',{nullable:true})
     name: string;
     @Column('varchar',{nullable:true})

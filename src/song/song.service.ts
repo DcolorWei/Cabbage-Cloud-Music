@@ -2,7 +2,6 @@ import { Injectable, StreamableFile } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SongInfo } from './entity/song.entity'
-import * as fs from 'fs/promises'
 import { createReadStream } from 'fs';
 import { join } from 'path';
 

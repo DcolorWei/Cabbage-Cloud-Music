@@ -5,10 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SongModule } from './song/song.module';
 import { SongInfo } from './song/entity/song.entity';
 import { LyricModule } from './lyric/lyric.module';
+import { CoverService } from './cover/cover.service';
+import { CoverController } from './cover/cover.controller';
+import { CoverModule } from './cover/cover.module';
 
 @Module({
   imports: [
-    SongModule
+    SongModule, LyricModule
     , TypeOrmModule.forRoot({
       type: 'mysql',
       host: '122.9.107.17',
@@ -18,8 +21,8 @@ import { LyricModule } from './lyric/lyric.module';
       database: 'music',
       entities: [SongInfo],
       synchronize: true,
-    }), LyricModule],
-  controllers: [AppController],
-  providers: [AppService],
+    }), CoverModule],
+  controllers: [AppController, CoverController],
+  providers: [AppService, CoverService],
 })
 export class AppModule { }

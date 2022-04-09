@@ -25,7 +25,8 @@ export class SongController {
             return new HttpException('Users who do not have this permission temporarily', 407)
         }
         response.set({
-            'Access-Control-Allow-Origin':'*'
+            'Access-Control-Allow-Origin': '*',
+            // 'Content-Disposition': `attachment; filename="${new Date().getTime() % 10000000}.mp3"`,
         });
         return (await this.songService.getsongfilebyid(id));
     }

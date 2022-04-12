@@ -18,12 +18,10 @@ export class SongService {
         return this.songInfoRepository.query('select `id`, `name`,`author`,`album` from `songinfo` ' + `WHERE songinfo.id="${id}"`)
     }
 
-    async getsongfilebyid(id: SongInfo['id']): Promise<any> {
+    async getsongfilebyid(id: SongInfo['id']): Promise<string> {
         let path: string = (await this.songInfoRepository.query('select `songfilepath` from `songinfo` ' + `WHERE songinfo.id="${id}"`))[0].songfilepath;
         console.log(path)
         return path;
-        // const file=createReadStream(join(process.cwd(), path))
-        // return new StreamableFile(file);
     }
 
     async getsongbysearch(search: string, item: number, page: number): Promise<SongInfo[]> {

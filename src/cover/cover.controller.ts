@@ -5,7 +5,7 @@ import { Request } from 'express';
 export class CoverController {
     constructor(private readonly coverService: CoverService) { }
     @Get('getcoverbyid')
-    async getcoverbyid(@Req() req: Request, @Res({ passthrough: true }) response): Promise<any> {
+    async getcoverbyid(@Req() req: Request, @Res({ passthrough: true }) response): Promise<StreamableFile> {
         let picdata: Buffer = await this.coverService.getcoverbyid(req.query.id as unknown as number)
         response.set({
             'Content-Type': 'image/jpeg'

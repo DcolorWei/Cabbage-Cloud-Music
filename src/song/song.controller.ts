@@ -18,7 +18,7 @@ export class SongController {
         return (await this.songService.getsongbyid(id))[0];
     }
     @Get('getsongfilebyid')
-    async getsongfilebyid(@Req() request: Request, @Res({ passthrough: true }) response): Promise<any> {
+    async getsongfilebyid(@Req() request: Request, @Res({ passthrough: true }) response): Promise<void | HttpException> {
         let id: SongInfo['id'] = request.query.id as unknown as number;
         let userkey: string = request.query.userkey as string;
         if (userkey !== "test") {//没有请求文件的权限
@@ -28,7 +28,7 @@ export class SongController {
             'Access-Control-Allow-Origin': '*'
         });
         response.redirect(await this.songService.getsongfilebyid(id));
-        return;
+        return;//找到音乐文件就不需要了
     }
 
     @Get('getsongbysearch')

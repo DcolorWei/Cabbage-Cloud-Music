@@ -1,4 +1,4 @@
-import { Controller, Get, Req } from '@nestjs/common';
+import { Controller, Get, Req, HttpException } from '@nestjs/common';
 import { LyricService } from './lyric.service';
 import { Request } from 'express';
 
@@ -6,7 +6,7 @@ import { Request } from 'express';
 export class LyricController {
     constructor(private readonly lyricService: LyricService) { }
     @Get('getlyricbyid')
-    async getlyricbyid(@Req() req: Request): Promise<string> {
+    async getlyricbyid(@Req() req: Request): Promise<string|HttpException> {
         return this.lyricService.getlyricbyid(req.query.id as unknown as number)
     }
 }

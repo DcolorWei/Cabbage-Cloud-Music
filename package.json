@@ -29,6 +29,7 @@
     "espress": "0.0.0",
     "fs-extra": "^10.0.1",
     "iconv-lite": "^0.6.3",
+    "jsmediatags": "^3.9.7",
     "mysql": "^2.18.1",
     "path": "^0.12.7",
     "reflect-metadata": "^0.1.13",

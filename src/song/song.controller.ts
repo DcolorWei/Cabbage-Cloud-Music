@@ -8,7 +8,7 @@ import { SongService } from './song.service';
 export class SongController {
     constructor(private readonly songService: SongService) { }
     @Get('getsongbyrandom')
-    async getsongbyrandom(): Promise<SongInfo> {
+    async getsongbyrandom(@Res({ passthrough: true }) response): Promise<SongInfo> {
         let result: SongInfo[] = await this.songService.getsongbyrandom();
         return result[Math.floor(Math.random() * result.length)];
     }
@@ -18,17 +18,17 @@ export class SongController {
         return (await this.songService.getsongbyid(id))[0];
     }
     @Get('getsongfilebyid')
-    async getsongfilebyid(@Req() request: Request, @Res({ passthrough: true }) response): Promise<string | HttpException> {
+    async getsongfilebyid(@Req() request: Request, @Res({ passthrough: true }) response): Promise<any> {
         let id: SongInfo['id'] = request.query.id as unknown as number;
         let userkey: string = request.query.userkey as string;
         if (userkey !== "test") {//没有请求文件的权限
-            return new HttpException('Users who do not have this permission temporarily', 407)
+            return new HttpException('Users who do not have this permission temporarily', 401)
         }
         response.set({
-            'Access-Control-Allow-Origin': '*',
-            // 'Content-Disposition': `attachment; filename="${new Date().getTime() % 10000000}.mp3"`,
+            'Access-Control-Allow-Origin': '*'
         });
-        return (await this.songService.getsongfilebyid(id));
+        response.redirect(await this.songService.getsongfilebyid(id));
+        return;
     }
 
     @Get('getsongbysearch')

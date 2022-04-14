@@ -6,11 +6,11 @@ import { SongModule } from './song/song.module';
 import { SongInfo } from './song/entity/song.entity';
 import { LyricModule } from './lyric/lyric.module';
 import { CoverModule } from './cover/cover.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
-    SongModule, LyricModule, CoverModule
-    , TypeOrmModule.forRoot({
+    TypeOrmModule.forRoot({
       type: 'mysql',
       host: '122.9.107.17',
       port: 8888,
@@ -19,8 +19,13 @@ import { CoverModule } from './cover/cover.module';
       database: 'music',
       entities: [SongInfo],
       synchronize: true,
-    })],
-  controllers: [AppController,],
+    }),
+    UserModule,
+    SongModule,
+    LyricModule,
+    CoverModule
+  ],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule { }

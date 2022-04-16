@@ -4,11 +4,13 @@ import { User } from './entity/user.entity';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
+import { RedisModule } from '../redis/redis.module';
+
 @Module({
-    imports:[TypeOrmModule.forFeature([User])],
+    imports:[TypeOrmModule.forFeature([User]),RedisModule],
     controllers:[UserController],
     providers:[UserService],
-    exports:[TypeOrmModule]
+    exports:[TypeOrmModule,RedisModule]
 })
 
 export class UserModule {}

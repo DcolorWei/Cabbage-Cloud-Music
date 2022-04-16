@@ -13,7 +13,7 @@ export class UserController {
 
     @Post('registerbyemail')
     async registerByEmail(@Req() request:Request):Promise<HttpException>{
-        const {name,email,psw,verifyCode}=request.query as {name:string,email:string,psw:string,verifyCode:string};
-        return this.userService.registerByEmail(name,email,psw,verifyCode)
+        const {name,email,psw,verifycode}=request.query as {name:string,email:string,psw:string,verifycode:string};
+        return this.userService.registerByEmail(name,email,psw,verifycode)
      }
 }

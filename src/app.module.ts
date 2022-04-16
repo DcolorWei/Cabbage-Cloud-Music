@@ -7,6 +7,7 @@ import { SongInfo } from './song/entity/song.entity';
 import { LyricModule } from './lyric/lyric.module';
 import { CoverModule } from './cover/cover.module';
 import { UserModule } from './user/user.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { UserModule } from './user/user.module';
     UserModule,
     SongModule,
     LyricModule,
-    CoverModule
+    CoverModule,
+    RedisModule
   ],
   controllers: [AppController],
   providers: [AppService],

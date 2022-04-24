@@ -1,4 +1,4 @@
-import { Injectable} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SongInfo } from './entity/song.entity';
@@ -10,7 +10,7 @@ export class SongService {
         @InjectRepository(SongInfo)
         private readonly songInfoRepository: Repository<SongInfo>//返回的数组格式的promise，内含查询结果，先resolve再取索引
     ) { }
-    async getsongbyrandom(): Promise<SongInfo[]> {
+    async getsongbyrandom(mode: 0 | 1 | 2 | 3 = 0): Promise<SongInfo[]> {
         return this.songInfoRepository.query('select `id`, `name`,`author`,`album` from `songinfo`')
     }
 
@@ -24,7 +24,7 @@ export class SongService {
         return path;
     }
 
-    async getsongbysearch(search: string, item: number, page: number): Promise<SongInfo[]> {
+    async getsongbysearch(search: string, item: number = 10, page: number = 0): Promise<SongInfo[]> {
         return await this.songInfoRepository.query('select `id`, `name`,`author`,`album` from `songinfo` ' + `WHERE songinfo.name LIKE "%${search}%" OR songinfo.author LIKE "%${search}%" limit ${page * item},${item}`)
     }
 }

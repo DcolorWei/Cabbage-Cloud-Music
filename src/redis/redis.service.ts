@@ -21,4 +21,9 @@ export class RedisService {
   async cacheGet(key: any): Promise<any> {
     return this.cacheManager.get(key);
   }
+
+  cacheDel(key: any): Promise<any> {
+    return this.cacheManager.del(key);
+  }
+  
 }
